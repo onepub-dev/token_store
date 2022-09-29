@@ -1,3 +1,6 @@
+# 1.0.16
+- add missing support logic for windows an macos.
+
 # 1.0.15
 - added logic to create the configDir if it doesn't already exists.
 - fix for configDir

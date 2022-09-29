@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:cli_util/cli_util.dart';
 import 'package:dcli/dcli.dart';
 
 /// Environment variable you can set to alter the location
@@ -16,10 +19,11 @@ final String? dartConfigDir = () {
   if (runningFromTest && env.exists('_PUB_TEST_CONFIG_DIR')) {
     configDir = env['_PUB_TEST_CONFIG_DIR'];
   } else {
-    if (!env.exists("HOME")) {
+    try {
+      configDir = applicationConfigHome('dart');
+    } on EnvironmentNotFoundException catch (_, __) {
       return null;
     }
-    configDir = applicationConfigHome('dart');
   }
 
   if (configDir == null) {
@@ -32,7 +36,45 @@ final String? dartConfigDir = () {
 }();
 
 String applicationConfigHome(String productName) =>
-    join(HOME, '.config', productName);
+    join(_configHome, '.config', productName);
+
+String get _configHome {
+  if (Platform.isWindows) {
+    final appdata = env['APPDATA'];
+    if (appdata == null) {
+      throw EnvironmentNotFoundException(
+          'Environment variable %APPDATA% is not defined!');
+    }
+    return appdata;
+  }
+
+  if (Platform.isMacOS) {
+    return join(_home, 'Library', 'Application Support');
+  }
+
+  if (Platform.isLinux) {
+    final xdgConfigHome = Platform.environment['XDG_CONFIG_HOME'];
+    if (xdgConfigHome != null) {
+      return xdgConfigHome;
+    }
+    // XDG Base Directory Specification says to use $HOME/.config/ when
+    // $XDG_CONFIG_HOME isn't defined.
+    return join(_home, '.config');
+  }
+
+  // We have no guidelines, perhaps we should just do: $HOME/.config/
+  // same as XDG specification would specify as fallback.
+  return join(_home, '.config');
+}
+
+String get _home {
+  final home = env['HOME'];
+  if (home == null) {
+    throw EnvironmentNotFoundException(
+        'Environment variable \$HOME is not defined!');
+  }
+  return home;
+}
 
 /// Whether the current process is a pub subprocess being run from a test.
 ///
