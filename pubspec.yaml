@@ -1,5 +1,5 @@
 name: token_store
-version: 1.0.12
+version: 1.0.13
 description: api for the dart pub token store.
 repository: https://github.com/onepub-dev/token_store
 environment: 
