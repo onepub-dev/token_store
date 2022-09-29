@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:cli_util/cli_util.dart';
 import 'package:dcli/dcli.dart';
 
 /// Environment variable you can set to alter the location
@@ -13,17 +12,27 @@ const pubTestsConfigDirKey = '_PUB_TEST_CONFIG_DIR';
 ///
 /// `null` if no config dir could be found.
 final String? dartConfigDir = () {
+  String? configDir;
   if (runningFromTest && env.exists('_PUB_TEST_CONFIG_DIR')) {
-    return env['_PUB_TEST_CONFIG_DIR'];
+    configDir = env['_PUB_TEST_CONFIG_DIR'];
+  } else {
+    if (!env.exists("HOME")) {
+      return null;
+    }
+    configDir = applicationConfigHome('dart');
   }
-  try {
-    return applicationConfigHome('dart');
-  } on EnvironmentNotFoundException {
+
+  if (configDir == null) {
     return null;
   }
+  if (!exists(configDir)) {
+    createDir(configDir, recursive: true);
+  }
+  return configDir;
 }();
 
-applicationConfigHome(String productName) => join(HOME, '.config', productName);
+String applicationConfigHome(String productName) =>
+    join(HOME, '.config', productName);
 
 /// Whether the current process is a pub subprocess being run from a test.
 ///
