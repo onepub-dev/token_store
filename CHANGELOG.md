@@ -1,3 +1,6 @@
+# 1.0.17
+- removed duplication of .config in path.
+
 # 1.0.16
 - add missing support logic for windows an macos.
 

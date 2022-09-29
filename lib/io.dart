@@ -36,7 +36,7 @@ final String? dartConfigDir = () {
 }();
 
 String applicationConfigHome(String productName) =>
-    join(_configHome, '.config', productName);
+    join(_configHome, productName);
 
 String get _configHome {
   if (Platform.isWindows) {
