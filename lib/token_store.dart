@@ -18,7 +18,7 @@ export 'hosted.dart';
 
 /// Stores and manages authentication credentials.
 class TokenStore {
-  TokenStore([this.configDir]) {
+  TokenStore([String? configDir]) {
     configDir ??= dartConfigDir;
   }
 
