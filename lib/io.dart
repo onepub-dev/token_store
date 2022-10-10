@@ -14,7 +14,7 @@ const pubTestsConfigDirKey = '_PUB_TEST_CONFIG_DIR';
 /// The location for dart-specific configuration.
 ///
 /// `null` if no config dir could be found.
-final String? dartConfigDir = () {
+String? get dartConfigDir {
   String? configDir;
   if (runningFromTest && env.exists('_PUB_TEST_CONFIG_DIR')) {
     configDir = env['_PUB_TEST_CONFIG_DIR'];
@@ -33,7 +33,7 @@ final String? dartConfigDir = () {
     createDir(configDir, recursive: true);
   }
   return configDir;
-}();
+}
 
 String applicationConfigHome(String productName) =>
     join(_configHome, productName);
