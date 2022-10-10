@@ -120,7 +120,7 @@ class TokenStore {
     }
     final tokenPath = path.dirname(tokensFile);
     if (!exists(tokenPath)) {
-      createDir(tokenPath);
+      createDir(tokenPath, recursive: true);
     }
     writeTextFile(
         tokensFile,
