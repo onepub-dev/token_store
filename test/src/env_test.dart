@@ -4,16 +4,15 @@
  * Written by Brett Sutton <bsutton@onepub.dev>, Jan 2022
  */
 
-import 'package:test/test.dart';
-
 import 'package:dcli/dcli.dart' hide Settings;
 import 'package:dcli/dcli.dart' as dcli;
+import 'package:test/test.dart';
 import 'package:token_store/token_store.dart';
 
 void main() {
   test('dbpool ...', () async {
     var dirName = '/tmp/1';
-    withEnvironment(() {
+    await withEnvironment(() async {
       print('path $dirName');
       print('env ${env.HOME}');
 
@@ -26,7 +25,7 @@ void main() {
     }, environment: {'HOME': dirName, 'PUB_CACHE': PubCache().cacheDir});
 
     dirName = '/tmp/2';
-    withEnvironment(() {
+    await withEnvironment(() async {
       print('path $dirName');
       print('env ${env.HOME}');
 

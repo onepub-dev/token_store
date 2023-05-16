@@ -226,9 +226,7 @@ class TokenStore {
   /// Full path to the "pub-tokens.json" file.
   ///
   /// `null` if no config directory could be found.
-  String? get _tokensFile {
-    return path.join(configDir, 'pub-tokens.json');
-  }
+  String? get _tokensFile => path.join(configDir, 'pub-tokens.json');
 }
 
 /// Creates [file] and writes [contents] to it.

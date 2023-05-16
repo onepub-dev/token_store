@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:cli_util/cli_util.dart';
 import 'package:dcli/dcli.dart';
+import 'package:path/path.dart';
 
 /// Environment variable you can set to alter the location
 /// of the dart/.config dir for testing pruposes.
@@ -71,7 +72,7 @@ String get _home {
   final home = env['HOME'];
   if (home == null) {
     throw EnvironmentNotFoundException(
-        'Environment variable \$HOME is not defined!');
+        r'Environment variable $HOME is not defined!');
   }
   return home;
 }
