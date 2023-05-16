@@ -1,3 +1,10 @@
+# 2.0.0
+- upgraded to dart 3.x
+- env test
+- fix for env
+- add logging
+- create path if required
+
 # 1.0.17
 - removed duplication of .config in path.
 
