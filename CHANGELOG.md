@@ -1,3 +1,6 @@
+# 2.1.0
+- upgraded to dcli 3.1.0
+
 # 2.0.0
 - upgraded to dart 3.x
 - env test
