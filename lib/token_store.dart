@@ -13,7 +13,6 @@ import 'credential.dart';
 import 'exceptions.dart';
 import 'io.dart';
 
-export 'credential.dart';
 export 'hosted.dart';
 
 /// Stores and manages authentication credentials.
@@ -25,17 +24,18 @@ class TokenStore {
     if (lConfigDir != null) {
       configDir = lConfigDir;
     } else {
-      configDir = dartConfigDir!;
+      configDir = dartConfigDir;
     }
   }
 
   /// Cache directory.
-  late String configDir;
+  late final String? configDir;
 
   /// List of saved authentication tokens.
   ///
   /// Modifying this field will not write changes to the disk. You have to call
-  /// flush to save changes.
+  // ignore: comment_references
+  /// [flush] to save changes.
   Iterable<Credential> get credentials => _loadCredentials();
 
   /// Reads "pub-tokens.json" and parses / deserializes it into list of
@@ -119,16 +119,15 @@ class TokenStore {
       missingConfigDir();
     }
     print('tokensFile $tokensFile');
-    final tokenPath = path.dirname(tokensFile);
-    if (!exists(tokenPath)) {
-      createDir(tokenPath, recursive: true);
-    }
+    ensureDir(tokensFile);
+
     writeTextFile(
-        tokensFile,
-        jsonEncode(<String, dynamic>{
-          'version': 1,
-          'hosted': credentials.map((it) => it.toJson()).toList(),
-        }));
+      tokensFile,
+      jsonEncode(<String, dynamic>{
+        'version': 1,
+        'hosted': credentials.map((it) => it.toJson()).toList(),
+      }),
+    );
   }
 
   /// Adds [token] into store and writes into disk.
@@ -149,29 +148,6 @@ class TokenStore {
     var found = false;
     while (i < lcredentials.length) {
       if (lcredentials[i].url == hostedUrl) {
-        lcredentials.removeAt(i);
-        found = true;
-      } else {
-        i++;
-      }
-    }
-
-    _saveCredentials(lcredentials);
-
-    return found;
-  }
-
-  /// Removes tokens which start with the same [hostedUrlSuffix] from store.
-  /// Returns whether or not there was at least one stored token with matching
-  /// url.
-  bool removeMatchingCredential(Uri hostedUrlSuffix) {
-    final lcredentials = _loadCredentials();
-
-    var i = 0;
-    var found = false;
-    while (i < lcredentials.length) {
-      final prefix = hostedUrlSuffix.toString();
-      if (lcredentials[i].url.toString().startsWith(prefix)) {
         lcredentials.removeAt(i);
         found = true;
       } else {
@@ -226,22 +202,55 @@ class TokenStore {
   /// Full path to the "pub-tokens.json" file.
   ///
   /// `null` if no config directory could be found.
-  String? get _tokensFile => path.join(configDir, 'pub-tokens.json');
-}
-
-/// Creates [file] and writes [contents] to it.
-///
-/// If [dontLogContents] is `true`, the contents of the file will never be
-/// logged.
-void writeTextFile(
-  String file,
-  String contents, {
-  bool dontLogContents = false,
-  Encoding encoding = utf8,
-}) {
-  if (isLink(file)) {
-    deleteSymlink(file);
+  String? get _tokensFile {
+    final dir = configDir;
+    return dir == null ? null : path.join(dir, 'pub-tokens.json');
   }
 
-  file.write(contents);
+  /// Creates [file] and writes [contents] to it.
+  ///
+  /// If [dontLogContents] is `true`, the contents of the file will never be
+  /// logged.
+  void writeTextFile(
+    String file,
+    String contents, {
+    bool dontLogContents = false,
+    Encoding encoding = utf8,
+  }) {
+    if (isLink(file)) {
+      deleteSymlink(file);
+    }
+
+    file.write(contents);
+  }
+
+  /// Removes tokens which start with the same [hostedUrlSuffix] from store.
+  /// Returns whether or not there was at least one stored token with matching
+  /// url.
+  bool removeMatchingCredential(Uri hostedUrlSuffix) {
+    final lcredentials = _loadCredentials();
+
+    var i = 0;
+    var found = false;
+    while (i < lcredentials.length) {
+      final prefix = hostedUrlSuffix.toString();
+      if (lcredentials[i].url.toString().startsWith(prefix)) {
+        lcredentials.removeAt(i);
+        found = true;
+      } else {
+        i++;
+      }
+    }
+
+    _saveCredentials(lcredentials);
+
+    return found;
+  }
+
+  void ensureDir(String tokensFile) {
+    final tokenPath = path.dirname(tokensFile);
+    if (!exists(tokenPath)) {
+      createDir(tokenPath, recursive: true);
+    }
+  }
 }

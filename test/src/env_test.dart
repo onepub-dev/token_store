@@ -4,9 +4,10 @@
  * Written by Brett Sutton <bsutton@onepub.dev>, Jan 2022
  */
 
-import 'package:dcli/dcli.dart' hide Settings;
 import 'package:dcli/dcli.dart' as dcli;
+import 'package:dcli/dcli.dart' hide Settings;
 import 'package:test/test.dart';
+import 'package:token_store/credential.dart';
 import 'package:token_store/token_store.dart';
 
 void main() {
