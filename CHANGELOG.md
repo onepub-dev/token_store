@@ -1,6 +1,8 @@
-# 3.0.0-alpha.2
+# 3.0.0-alpha.3
 - just ensuring that we have published the latest release as 
 we had some source management issues.
+- merged the latest version of creditials.dart and token_store.dart
+from the pub command.
 
 # 3.0.0-alpha.1
 - upgraded to dcli 4.x
