@@ -1,5 +1,10 @@
+# 3.0.0-alpha.2
+- just ensuring that we have published the latest release as 
+we had some source management issues.
+
 # 3.0.0-alpha.1
-upgraded to dcli 4.x
+- upgraded to dcli 4.x
+
 # 2.1.0
 - upgraded to dcli 3.1.0
 
