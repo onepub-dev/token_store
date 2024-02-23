@@ -1,3 +1,8 @@
+# 3.0.0-alpha.4
+- additional logging
+- upgraded to dcli 4.x alpha 8
+
+
 # 3.0.0-alpha.3
 - just ensuring that we have published the latest release as 
 we had some source management issues.

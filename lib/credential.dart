@@ -133,7 +133,8 @@ class Credential {
     if (!isValidBearerToken(tokenValue)) {
       throw DataException(
           'Credential token for $url is not a valid Bearer token. '
-          r'It should match `^[a-zA-Z0-9._~+/=-]+$`');
+          r'It should match `^[a-zA-Z0-9._~+/=-]+$` '
+          'Found: $tokenValue');
     }
 
     return Future.value('Bearer $tokenValue');

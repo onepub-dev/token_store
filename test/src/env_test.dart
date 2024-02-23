@@ -13,7 +13,7 @@ import 'package:token_store/token_store.dart';
 void main() {
   test('dbpool ...', () async {
     var dirName = '/tmp/1';
-    await withEnvironment(() async {
+    await withEnvironmentAsync(() async {
       print('path $dirName');
       print('env ${env.HOME}');
 
@@ -26,7 +26,7 @@ void main() {
     }, environment: {'HOME': dirName, 'PUB_CACHE': PubCache().cacheDir});
 
     dirName = '/tmp/2';
-    await withEnvironment(() async {
+    await withEnvironmentAsync(() async {
       print('path $dirName');
       print('env ${env.HOME}');
 
