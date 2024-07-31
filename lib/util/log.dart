@@ -28,7 +28,7 @@ void _logout(String message) {
   final args = ParsedArgs();
 
   var lmessage = message;
-  if (args.colour == false) {
+  if (!args.colour) {
     lmessage = Ansi.strip(message);
   }
 
@@ -51,7 +51,7 @@ void _logerr(String message) {
   final args = ParsedArgs();
 
   var lmessage = message;
-  if (args.colour == false) {
+  if (!args.colour) {
     lmessage = Ansi.strip(message);
   }
 
