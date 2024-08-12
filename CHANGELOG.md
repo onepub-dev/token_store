@@ -1,3 +1,5 @@
+# 3.1.0
+- upgraded to dcli 6.x
 # 3.0.0-alpha.4
 - additional logging
 - upgraded to dcli 4.x alpha 8
