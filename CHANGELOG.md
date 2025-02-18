@@ -1,3 +1,6 @@
+# 3.2.0
+- upgraded to dcli 7.x
+
 # 3.1.0
 - upgraded to dcli 6.x
 # 3.0.0-alpha.4
