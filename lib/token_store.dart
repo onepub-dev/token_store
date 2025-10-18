@@ -17,6 +17,9 @@ export 'hosted.dart';
 
 /// Stores and manages authentication credentials.
 class TokenStore {
+  /// Cache directory.
+  late final String? configDir;
+
   TokenStore([String? lConfigDir]) {
     if (lConfigDir == null && dartConfigDir == null) {
       throw Exception('No path found or specified');
@@ -27,9 +30,6 @@ class TokenStore {
       configDir = dartConfigDir;
     }
   }
-
-  /// Cache directory.
-  late final String? configDir;
 
   /// List of saved authentication tokens.
   ///
@@ -84,9 +84,11 @@ class TokenStore {
                   'Invalid or not supported credential');
             }
           } on FormatException catch (e) {
+            // this is googles code, so not changing it.
             // ignore: avoid_dynamic_calls
             if (element['url'] is String) {
               logwarn(
+                // it's json - so what do you expect.
                 // ignore: avoid_dynamic_calls
                 'Failed to load credentials for ${element['url']}: '
                 '${e.message}',

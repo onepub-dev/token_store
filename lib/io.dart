@@ -86,6 +86,7 @@ final bool runningFromTest = env.exists('_PUB_TESTING') && _assertionsEnabled;
 final bool _assertionsEnabled = () {
   try {
     assert(false, 'Check if asserts enabled');
+    // because its a test.
     // ignore: avoid_catching_errors
   } on AssertionError {
     return true;

@@ -2,15 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: comment_references
-
 import 'dart:io';
 
 import 'exceptions.dart';
 import 'hosted.dart';
 
 /// Token is a structure for storing authentication credentials for third-party
-/// pub registries. A token holds registry [url], credential [kind] and [token]
+/// pub registries. A token holds registry [url], credential `kind` and [token]
 /// itself.
 ///
 /// Token could be serialized into and from JSON format structured like
@@ -23,7 +21,22 @@ import 'hosted.dart';
 /// }
 /// ```
 class Credential {
-  /// Internal constructor that's only used by [fromJson].
+  /// Server url which this token authenticates.
+  final Uri url;
+
+  /// Authentication token value
+  final String? token;
+
+  /// Environment variable name that stores token value
+  final String? env;
+
+  /// Unknown fields found in pub-tokens.json. The fields might be created
+  /// by the
+  /// future version of pub tool. We don't want to override them when using the
+  /// old SDK.
+  final Map<String, dynamic> unknownFields;
+
+  /// Internal constructor that's only used by `fromJson`.
   Credential._internal({
     required this.url,
     required this.unknownFields,
@@ -77,21 +90,6 @@ class Credential {
       env: lstring('env'),
     );
   }
-
-  /// Server url which this token authenticates.
-  final Uri url;
-
-  /// Authentication token value
-  final String? token;
-
-  /// Environment variable name that stores token value
-  final String? env;
-
-  /// Unknown fields found in pub-tokens.json. The fields might be created
-  /// by the
-  /// future version of pub tool. We don't want to override them when using the
-  /// old SDK.
-  final Map<String, dynamic> unknownFields;
 
   /// Serializes [Credential] into json format.
   Map<String, dynamic> toJson() => <String, dynamic>{
