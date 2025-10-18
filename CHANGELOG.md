@@ -1,3 +1,6 @@
+# 3.3.0
+- upgraded to dcli 8.1.0 and lint hard 6.2.1
+
 # 3.2.0
 - upgraded to dcli 7.x
 
