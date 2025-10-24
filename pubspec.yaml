@@ -6,7 +6,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 dependencies:
   cli_util: ^0.4.0
-  dcli: ^8.1.0
+  dcli: ^8.2.0
   path: ^1.8.1
   stack_trace: ^1.10.0
 dev_dependencies:
