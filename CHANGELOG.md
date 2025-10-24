@@ -1,3 +1,6 @@
+# 3.4.1
+- upgraded to dcli 8.2.0 - first attempt didn't stick.
+
 # 3.4.0
 - upgraded to dcli 8.2.0
 
